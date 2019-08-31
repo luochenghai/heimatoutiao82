@@ -1,19 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// 1.0引人主页和登录页的路由组件
 import Home from './views/home/index.vue'
 import Login from './views/login/index.vue'
 
 Vue.use(Router)
 
 export default new Router({
+  // 1.1注册路由表
   routes: [
+    {
+      path: '/',
+      redirect: '/home' // 强行指向home组件
+    },
     {
       path: '/login',
       component: Login
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: Home
     }
