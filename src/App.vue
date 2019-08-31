@@ -3,7 +3,7 @@
     <div id="nav">
       <!-- 根组件中放入了导航和路由的承载容器 -->
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/index"></router-link>
     </div>
     <router-view/>
   </div>
