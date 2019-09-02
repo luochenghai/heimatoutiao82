@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 // 1.0引人主页和登录页的路由组件
 import Home from './views/home/index.vue'
+import Main from './views/home/main.vue'
 import Login from './views/login/index.vue'
 
 Vue.use(Router)
@@ -20,9 +21,14 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'home',
-      component: Home
+      component: Home,
+      children: [{
+        path: '', // 默认的二级路由  的地址 path为空串
+        component: Main
+      }]
+
     }
+
     // {
     //   // route level code-splitting
     //   // this generates a separate chunk (about.[hash].js) for this route

@@ -31,9 +31,9 @@
 export default {
   data () {
     // validate 任一表单项被校验后触发
-    let validator = function (rule, value, callBack) {
+    let validate = function (rule, value, callBack) {
       if (value) {
-        callBack()
+        callBack() // 为true直接通过
       } else {
         callBack(new Error('您必须无条件的同意该条款！'))
       }
@@ -66,7 +66,7 @@ export default {
           message: '验证码必须为6位'
         }],
         check: [{
-          validator
+          validate
         }]
       }
     }
@@ -88,13 +88,16 @@ export default {
             // 放到前端的缓存中
             window.localStorage.setItem('user-token', res.data.data.token)
             // 编程时导航
-            this.$router.push({ path: ' / ' })
-          }).catch(() => {
-            this.$message({
-              message: '手机号或者验证码错误',
-              type: 'warning'
-            })
+            //  this.$router.push('/') 另一种写法
+            this.$router.push('/')
           })
+          // 如果出错了，给出提示信息
+          // .catch(() => {
+          //   this.$message({
+          //     message: '手机号或者验证码错误',
+          //     type: 'warning'
+          //   })
+          // })  // 在axios.config 中 统一处理了错误
         }
       })
     }
