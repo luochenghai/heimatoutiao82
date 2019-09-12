@@ -2,16 +2,18 @@
   <div class="login">
       <!-- <div> Login </div> -->
     <el-card class="box-card">
+       <div  class='logo'>
         <img src="../../assets/img/logo_index.png" alt="黑马头条"/>
+       </div>
         <!-- 数据校验，先要给el-form 一个model 属性，表示需要绑定的数据对象  rule属性绑定的是校验规则  ref 获取表单DOM元素-->
-        <el-form :model='loginForm' :rules='loginRules' ref='loginForm'>
+        <el-form ref='loginForm' :model='loginForm' :rules='loginRules' >
             <!-- porp属性设置需要校验的字段名即可 -->
             <el-form-item prop='mobile'>
-                <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
+                <el-input v-model="loginForm.mobile" placeHolder="请输入手机号"></el-input>
             </el-form-item>
 
             <el-form-item prop='code'>
-                <el-input  v-model="loginForm.code" placeholder="请输入验证码" style='width:240px'></el-input>
+                <el-input  v-model="loginForm.code" placeHolder="请输入验证码" style='width:280px'></el-input>
                 <el-button style="float:right">发送验证码</el-button>
             </el-form-item>
 
@@ -80,16 +82,19 @@ export default {
         if (isOk) {
           // $axios 中data中的放置body 参数，params 是放置地址参数
           this.$axios({
-            method: 'post',
             url: '/authorizations',
+            method: 'post',
+
             data: this.loginForm
           }).then(res => {
-            console.log(res.data.data.token)
+            // console.log(res.data.data.token)
+            console.log(res.data.token)
             // 放到前端的缓存中
-            window.localStorage.setItem('user-token', res.data.data.token)
+            // window.localStorage.setItem('user-token', res.data.data.token)
+            window.localStorage.setItem('user-token', res.data.token)
             // 编程时导航
-            //  this.$router.push('/') 另一种写法
-            this.$router.push('/')
+            this.$router.push('/') // 另一种写法
+            // this.$router.push('/')
           })
           // 如果出错了，给出提示信息
           // .catch(() => {
@@ -105,7 +110,7 @@ export default {
 }
 </script>
 
-<style lang='less' scope>// 在单文件组件中，如果要在style 标签中使用诸如less sass 需要在style 标签上给lang属性赋值
+<style lang='less' scoped>// 在单文件组件中，如果要在style 标签中使用诸如less sass 需要在style 标签上给lang属性赋值
 //默认的vue单文件组件的style样式时全局的，需要设置scoped 属性，只对当前自己的html起作用
  .login{
      background-image: url('../../assets/img/login_bg.jpg');
@@ -118,14 +123,16 @@ export default {
     align-items: center;
 
     .box-card {
-        width:420px;
-        height: 330px;
+        width:440px;
+        height: 350px;
+    .logo {
+      text-align:center;
         img {
             display: block;
             width: 200px;
             margin: 10px auto;
         }
     }
-
- }
+  }
+}
 </style>

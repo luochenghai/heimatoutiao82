@@ -2,7 +2,8 @@
     <!-- 最外层容器 -->
     <el-container>
       <!-- 左侧导航 -->
-      <el-aside style="width:198px">
+      <!-- 完善收缩功能'width:200px  改成60px -->
+     <el-aside :style="{ width:collapse ? '61px' : '201px'}" style=' background-color:#323745;overflow: hidden;'>
         <layout-aside></layout-aside>
       </el-aside>
       <!-- 右侧大容器 -->
@@ -24,11 +25,25 @@
 // 导出去
 // import layoutAside from '../../components/home/layout-aside.vue'
 // import layoutHeader from '../../components/home/layout-header.vue'
-export default {
-  components: {
+
+// 引入eventBus  完成侧栏的收缩和伸张
+import eventBus from '../../utils/events'
+export default { data () {
+  return {
+    collapse: false
+  }
+},
+created () {
+  // 在创建之前就监听变化
+  eventBus.$on('openOrClose', (status) => {
+    this.collapse = status
+  })
+},
+
+components: {
   //   'layout-aside': layoutAside,
   //   'layout-header': layoutHeader
-  }
+}
 }
 </script>
 

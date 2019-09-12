@@ -1,12 +1,13 @@
 <template>
-  <el-row class="layout-header row-bg" type="flex" justify="space-between">
+  <el-row class="layout-header" type="flex" justify="space-between">
     <el-col :span="10">
-      <i class="el-icon-s-unfold icon"></i>
-      <span class="grid-content left">江苏传智播客教育科技集团有限公司</span>
+      <!-- 点击图标时折叠 -->
+      <i @click ='openOrClose' :class="{'el-icon-s-unfold ':close ,'el-icon-s-fold ':!close}" class=" icon"></i>
+      <span class="grid-content left">江苏传销播客教育科技集团有限公司</span>
     </el-col>
 
     <el-col :span="3" class="right">
-      <img class="head-img" :src="userInfo.photo ? userInfo.photo : this.defaultImg" />
+      <img class="head-img" :src="userInfo.photo ? userInfo.photo : defaultImg" >
       <el-dropdown trigger="click" @command="handleMenuItem">
         <!-- 具名插槽 -->
         <span class="el-dropdown-link">
@@ -24,16 +25,25 @@
 </template>
 
 <script>
+// 同步更新头像 在这里引入 电话线
+import eventBus from '../../utils/events'
+
 // 7黑马头条PC-主页模块-头部信息查询
 export default {
   data () {
     return {
+      close: false,
       userInfo: {}, // 用户信息是个对象
       defaultImg: require('../../assets/img/avatar.jpg') // 自动转成base64
     }
   },
 
   methods: {
+    openOrClose () {
+      this.close = !this.close
+      // 拨号
+      eventBus.$emit('openOrClose', this.close)
+    },
     // 获取用户信息
     getUserInfo () {
       // 用信息都在缓存中
@@ -47,10 +57,7 @@ export default {
         this.userInfo = res.data
       })
     },
-    // 钩子函数,以进入用户界面之前就获取用户信息
-    created () {
-      this.getUserInfo()
-    },
+
     handleMenuItem (command) {
       if (command === 'account') {
       } else if (command === 'git') {
@@ -62,8 +69,19 @@ export default {
         this.$router.push('/login')
       }
     }
+
+  },
+  // 钩子函数,以进入用户界面之前就获取用户信息
+  created () {
+    // 要时刻保持监听  头像是否被更新
+    eventBus.$on('updateUserInfo', () => {
+      this.getUserInfo()
+    })
+    this.getUserInfo()
   }
+
 }
+
 </script>
 
 <style lang='less' scoped>

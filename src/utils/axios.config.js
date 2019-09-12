@@ -2,8 +2,14 @@ import axios from 'axios'
 import router from '../permission'
 import { Message } from 'element-ui'
 
-/** ***************黑马头条PC-接口访问-axios拦截器-统一处理请求token*****************/
-
+// 引入json-bigint包
+import jsonBigInt from 'json-bigint'
+// axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值基础地址/** ***************黑马头条PC-接口访问-axios拦截器-统一处理请求token*****************/
+// da4
+axios.defaults.transformResponse = [function (data) {
+  // 对 data 进行任意转换处理
+  return data ? jsonBigInt.parse(data) : {}
+}]
 // 请求拦截
 axios.interceptors.request.use(function (config) {
   // config 是axios 的默认请求配置 和 传入的配置的  结合出来的
